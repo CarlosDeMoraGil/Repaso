@@ -12,7 +12,7 @@ class SongMockRemoteDataSource {
 
     )
 
-    fun getAll(): List<Song>{
+    fun getSongs(): List<Song>{
         return songs
     }
 
