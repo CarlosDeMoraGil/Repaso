@@ -2,16 +2,18 @@ package edu.iesam.repaso.features.songs.presentation
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import edu.iesam.repaso.R
 import edu.iesam.repaso.features.songs.data.local.SongXmlLocalDataSource
 import edu.iesam.repaso.features.songs.domain.Song
+import edu.iesam.repaso.features.songs.presentation.SongDetailActivity
 
-class SongActivity : AppCompatActivity() {
+class SongsActivity : AppCompatActivity() {
 
     private lateinit var songFactory: SongFactory
-    private lateinit var viewModel: SongViewModel
+    private lateinit var viewModel: SongsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,9 @@ class SongActivity : AppCompatActivity() {
          *
          */
 
+        val songs = viewModel.viewCreated()
+        bindData(songs)
+
 
 
     }
@@ -64,55 +69,75 @@ class SongActivity : AppCompatActivity() {
     private fun bindData(songs : List<Song>){
         findViewById<TextView>(R.id.song_id_1).text = songs[0].id
         findViewById<TextView>(R.id.song_title_1).text = songs[0].name
+        findViewById<LinearLayout>(R.id.layout_1).setOnClickListener {
+            navigateToMovieDetail(songs[0].id)
+        }
 
         findViewById<TextView>(R.id.song_id_2).text = songs[1].id
         findViewById<TextView>(R.id.song_title_2).text = songs[1].name
+        findViewById<LinearLayout>(R.id.layout_2).setOnClickListener {
+            navigateToMovieDetail(songs[1].id)
+        }
 
         findViewById<TextView>(R.id.song_id_3).text = songs[2].id
         findViewById<TextView>(R.id.song_title_3).text = songs[2].name
+        findViewById<LinearLayout>(R.id.layout_3).setOnClickListener {
+            navigateToMovieDetail(songs[2].id)
+        }
 
         findViewById<TextView>(R.id.song_id_4).text = songs[3].id
         findViewById<TextView>(R.id.song_title_4).text = songs[3].name
-
-    }
-
-    private fun saveSongXML(){
-        val local = SongXmlLocalDataSource(this)
-        val song = viewModel.itemSelected("3")
-
-        song?.let { song ->
-            local.save(song)
+        findViewById<LinearLayout>(R.id.layout_4).setOnClickListener {
+            navigateToMovieDetail(songs[3].id)
         }
 
-
     }
 
-    private fun findSong(id: String): Song{
-        val local = SongXmlLocalDataSource(this)
-
-        return local.findSong(id)
+    private fun navigateToMovieDetail(id: String){
+        startActivity(SongDetailActivity.getIntent(this, id))
     }
 
-    private fun cleanFile(){
-        val local = SongXmlLocalDataSource(this)
-        local.clear()
-    }
 
-    private fun saveAll(songs: List<Song>){
-        val local = SongXmlLocalDataSource(this)
-        local.saveAll(songs)
 
-    }
-
-    private fun findAll(): List<Song>{
-        val local = SongXmlLocalDataSource(this)
-        return local.findAll()
-
-    }
-
-    private fun deleteById(id: String){
-        val local = SongXmlLocalDataSource(this)
-        local.deleteById(id)
-    }
+    /**
+     * private fun saveSongXML(){
+     *         val local = SongXmlLocalDataSource(this)
+     *         val song = viewModel.itemSelected("3")
+     *
+     *         song?.let { song ->
+     *             local.save(song)
+     *         }
+     *
+     *
+     *     }
+     *
+     *     private fun findSong(id: String): Song{
+     *         val local = SongXmlLocalDataSource(this)
+     *
+     *         return local.findSong(id)
+     *     }
+     *
+     *     private fun cleanFile(){
+     *         val local = SongXmlLocalDataSource(this)
+     *         local.clear()
+     *     }
+     *
+     *     private fun saveAll(songs: List<Song>){
+     *         val local = SongXmlLocalDataSource(this)
+     *         local.saveAll(songs)
+     *
+     *     }
+     *
+     *     private fun findAll(): List<Song>{
+     *         val local = SongXmlLocalDataSource(this)
+     *         return local.findAll()
+     *
+     *     }
+     *
+     *     private fun deleteById(id: String){
+     *         val local = SongXmlLocalDataSource(this)
+     *         local.deleteById(id)
+     *     }
+     */
 
 }

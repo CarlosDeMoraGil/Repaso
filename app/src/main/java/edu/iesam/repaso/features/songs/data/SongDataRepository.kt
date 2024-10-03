@@ -11,7 +11,7 @@ class SongDataRepository (val remote: SongMockRemoteDataSource, val local: SongX
 
 
     override fun getSongs(): List<Song> {
-        val songsFromLocal = local.findAll()
+       /** val songsFromLocal = local.findAll()
         if(songsFromLocal.isEmpty()){
             val songsFromRemote = remote.getSongs()
             local.saveAll(songsFromRemote)
@@ -19,18 +19,12 @@ class SongDataRepository (val remote: SongMockRemoteDataSource, val local: SongX
         }else{
             return songsFromLocal
         }
-
+*/      return remote.obtainSongs()
     }
 
     override fun getSong(id: String): Song? {
-        val songFromLocal = local.findSong(id)
-        if(songFromLocal == null){
-            remote.getSong(id)?.let { song ->
-                local.save(song)
-                return song
-            }
-        }
-        return songFromLocal
+        return remote.getSong(id)
+
     }
 
 }

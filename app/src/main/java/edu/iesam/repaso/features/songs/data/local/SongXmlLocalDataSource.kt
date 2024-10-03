@@ -35,7 +35,8 @@ class SongXmlLocalDataSource (private val context: Context){
         val artist = sharedPref.getString("artist", " ")
         val duration = sharedPref.getString("duration", " ")
         val album = sharedPref.getString("album", " ")
-        return Song(id!!, name!!, artist!!, duration!!, album!!)
+        val portada = sharedPref.getString("portada", " ")
+        return Song(id!!, name!!, artist!!, duration!!, album!!, portada!!)
     }
 
     fun clear(){
